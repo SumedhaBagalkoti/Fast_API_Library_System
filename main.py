@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from database import Base, engine
 import models
+from routers import stats
+
 
 from routers import books, authors, categories
 
@@ -13,6 +15,8 @@ Base.metadata.create_all(bind=engine)
 app.include_router(books.router)
 app.include_router(authors.router)
 app.include_router(categories.router)
+app.include_router(stats.router)
+
 
 @app.get("/")
 def root():
