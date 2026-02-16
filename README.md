@@ -153,7 +153,7 @@ GET /authors/1/books
 DELETE /authors/1
 ```
 
-#### 🏷 CATEGORIES
+#### CATEGORIES
 
 **➤ Create Category**
 ```
@@ -284,6 +284,6 @@ GET /stats/counts
 
 You can test using:
 
-✔ Thunder Client (VS Code)  
-✔ Swagger UI  
-✔ Postman
+- Thunder Client (VS Code)  
+- Swagger UI  
+- Postman
