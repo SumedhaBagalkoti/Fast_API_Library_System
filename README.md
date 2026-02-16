@@ -4,20 +4,20 @@ A complete Library API built using FastAPI, SQLite, SQLAlchemy, and Pydantic, fe
 
 This project satisfies all requirements from the assignment, including database design, CRUD APIs, business logic checks, and authentication.
 
-## 🚀 Features
+## Features
 
-✅ **CRUD Operations**
+**CRUD Operations**
 - Manage Books
 - Manage Authors
 - Manage Categories
 
-✅ **Filtering Options**
+**Filtering Options**
 - Filter books by author
 - Filter books by category
 - Filter books by year
 - Limit number of books returned
 
-✅ **Statistics Endpoints**
+**Statistics Endpoints**
 - Total books
 - Average publication year
 - Earliest & latest book of an author
@@ -26,12 +26,12 @@ This project satisfies all requirements from the assignment, including database 
 - Count books per author/category
 - List authors + sorted books
 
-✅ **Authentication Middleware**
+**Authentication Middleware**
 - Basic Auth implemented using middleware
 - All routes require authentication
 - Unauthorized users get 401
 
-## 📁 Folder Structure
+## Folder Structure
 ```
 library_app/
 │── main.py
@@ -48,7 +48,7 @@ library_app/
 │── README.md
 ```
 
-## 🛠️ Requirements
+## Requirements
 
 Install the required Python packages:
 
@@ -62,7 +62,7 @@ You can install all dependencies using:
 pip install -r requirements.txt
 ```
 
-## ⚙️ How to Run the Project
+## How to Run the Project
 
 ### 1. Clone the Repository
 ```bash
@@ -98,9 +98,9 @@ uvicorn main:app --reload
 
 FastAPI provides automatic Swagger UI:
 
-👉 http://127.0.0.1:8000/docs
+http://127.0.0.1:8000/docs
 
-## 🔐 Authentication (Required for All Endpoints)
+## Authentication (Required for All Endpoints)
 
 This project implements Basic Authentication using middleware.
 
@@ -117,13 +117,13 @@ If credentials are missing or wrong, response will be:
 }
 ```
 
-## 📚 API Endpoints
+## API Endpoints
 
 Below are all URLs grouped by task for easy testing.
 
-### 🧑‍🎨 TASK 1 & 2 — CRUD + Filtering Endpoints
+### TASK 1 & 2 — CRUD + Filtering Endpoints
 
-#### 📌 AUTHORS
+#### AUTHORS
 
 **➤ Create Author (POST)**
 ```
@@ -153,7 +153,7 @@ GET /authors/1/books
 DELETE /authors/1
 ```
 
-#### 🏷 CATEGORIES
+#### CATEGORIES
 
 **➤ Create Category**
 ```
@@ -180,7 +180,7 @@ GET /categories/1/books
 DELETE /categories/1
 ```
 
-#### 📚 BOOKS
+#### BOOKS
 
 **➤ Create Book**
 ```
@@ -218,7 +218,7 @@ PUT /books/1
 DELETE /books/1
 ```
 
-#### 🔍 BOOK FILTERING
+#### BOOK FILTERING
 
 **➤ Books by author**
 ```
@@ -240,39 +240,39 @@ GET /books?year=1997
 GET /books?limit=2
 ```
 
-### 📊 TASK 3 — Statistics & Business Checks
+### TASK 3 — Statistics & Business Checks
 
-**✔ 1. Total Books**
+**1. Total Books**
 ```
 GET /stats/total-books
 ```
 
-**✔ 2. Average Publication Year**
+**2. Average Publication Year**
 ```
 GET /stats/avg-year
 ```
 
-**✔ 3. Earliest + Latest book of an author**
+**3. Earliest + Latest book of an author**
 ```
 GET /stats/author-range/1
 ```
 
-**✔ 4. First N books sorted by title**
+**4. First N books sorted by title**
 ```
 GET /stats/first-n-books/3
 ```
 
-**✔ 6. Does author have any books?**
+**6. Does author have any books?**
 ```
 GET /stats/author-has-books/1
 ```
 
-**✔ 7. Count books per author & category**
+**7. Count books per author & category**
 ```
 GET /stats/counts
 ```
 
-### 🔐 TASK 4 — Authentication Middleware
+### TASK 4 — Authentication Middleware
 
 - Middleware protects all routes.
 - Authorization header required: `Authorization: Basic <base64>`
@@ -280,10 +280,10 @@ GET /stats/counts
 - Password: `password123`
 - All unauthorized requests return 401
 
-## 🧪 Testing Tools
+## Testing Tools
 
 You can test using:
 
-✔ Thunder Client (VS Code)  
-✔ Swagger UI  
-✔ Postman
+- Thunder Client (VS Code)  
+- Swagger UI  
+- Postman
