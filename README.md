@@ -280,6 +280,76 @@ GET /stats/counts
 - Password: `password123`
 - All unauthorized requests return 401
 
+
+# Books Insights API Endpoint
+
+## Overview
+
+The Insights endpoint provides analytics and statistics about the books collection.
+
+## Endpoint Details
+
+**URL:** `/books/insights`  
+**Method:** `GET`  
+**Description:** Generates an analytics report from the books collection
+
+## How It Works
+
+The endpoint performs the following operations:
+
+1. **Load Books** - Retrieves all books from the collection
+2. **Validate Books** - Filters books based on validation rules:
+   - Year must be between 1900 and 2100
+   - Author field must exist and not be empty
+3. **Calculate Top Authors** - Identifies the top 5 authors by book count
+4. **Identify Busy Years** - Finds years with 2 or more published books
+5. **Generate Report** - Returns the analytics data
+
+## Response Format
+
+### Success Response (200 OK)
+
+```json
+{
+  "top_authors": [
+    {
+      "author": "George Orwell",
+      "total_books": 4
+    },
+    {
+      "author": "Dan Brown",
+      "total_books": 1
+    }
+  ],
+  "busy_years": [
+    {
+      "year": 1949,
+      "books": [
+        "1984",
+        "1984"
+      ]
+    }
+  ]
+}
+```
+
+## Response Fields
+
+### `top_authors`
+Array of author objects, sorted by book count (descending), limited to top 5.
+
+- `author` (string) - Author name
+- `total_books` (integer) - Number of books by this author
+
+### `busy_years`
+Array of year objects where 2 or more books were published.
+
+- `year` (integer) - Publication year
+- `books` (array of strings) - Titles of books published in that year
+
+```
+
+
 ## Testing Tools
 
 You can test using:
