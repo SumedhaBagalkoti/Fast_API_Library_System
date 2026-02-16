@@ -27,6 +27,73 @@ def list_books(
 
     return query.all()
 
+
+@router.get("/insights")
+def books_insights(db: Session = Depends(get_db)):
+
+    # 1. LOAD ALL BOOKS
+    all_books = db.query(models.Book).all()
+
+    if not all_books:
+        return {
+            "top_authors": [],
+            "busy_years": []
+        }
+
+    # 2. FILTER VALID BOOKS
+    valid_books = [
+        b for b in all_books
+        if b.author is not None
+        and b.year is not None
+        and 1900 <= b.year <= 2100
+    ]
+
+    # If no valid books:
+    if not valid_books:
+        return {
+            "top_authors": [],
+            "busy_years": []
+        }
+
+    # 3. TOP 5 AUTHORS BY BOOK COUNT
+    author_count = {}
+    for book in valid_books:
+        name = book.author.name
+        author_count[name] = author_count.get(name, 0) + 1
+
+    # Sort authors by count DESC and take top 5
+    top_authors = sorted(
+        author_count.items(),
+        key=lambda x: x[1],
+        reverse=True
+    )[:5]
+
+    top_authors_output = [
+        {"author": name, "total_books": count}
+        for name, count in top_authors
+    ]
+
+    # 4. BUSY YEARS (years with at least 2 books)
+    year_map = {}
+    for book in valid_books:
+        year = book.year
+        year_map.setdefault(year, []).append(book.title)
+
+    busy_years = [
+        {"year": year, "books": titles}
+        for year, titles in year_map.items()
+        if len(titles) >= 2
+    ]
+
+    # Sort years ASC
+    busy_years = sorted(busy_years, key=lambda x: x["year"])
+
+    # 5. RETURN FINAL REPORT
+    return {
+        "top_authors": top_authors_output,
+        "busy_years": busy_years
+    }
+
 # GET one book
 @router.get("/{book_id}")
 def get_book(book_id: int, db: Session = Depends(get_db)):
@@ -67,3 +134,4 @@ def delete_book(book_id: int, db: Session = Depends(get_db)):
     db.delete(book)
     db.commit()
     return {"message": "Book deleted"}
+
