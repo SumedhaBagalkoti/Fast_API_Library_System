@@ -2,12 +2,12 @@ from fastapi import FastAPI
 from database import Base, engine
 import models
 
-from auth_middleware import auth_middleware
+#from auth_middleware import auth_middleware
 from routers import books, authors, categories ,stats
 
 app = FastAPI()
 
-app.middleware("http")(auth_middleware)
+#app.middleware("http")(auth_middleware)
 
 # Create tables
 Base.metadata.create_all(bind=engine)
