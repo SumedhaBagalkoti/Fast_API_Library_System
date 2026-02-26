@@ -76,5 +76,3 @@ def count_books(db: Session = Depends(get_db)):
         "books_per_category": category_counts
     }
 
-
-

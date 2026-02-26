@@ -6,26 +6,86 @@ import models, schemas
 router = APIRouter(prefix="/books", tags=["Books"])
 
 # LIST books with filters
+# @router.get("/")
+# def list_books(
+#     author_id: int = None,
+#     category_id: int = None,
+#     year: int = None,
+#     limit: int = None,
+#     db: Session = Depends(get_db)
+# ):
+#     query = db.query(models.Book)
+
+#     if author_id:
+#         query = query.filter(models.Book.author_id == author_id)
+#     if category_id:
+#         query = query.filter(models.Book.category_id == category_id)
+#     if year:
+#         query = query.filter(models.Book.year == year)
+#     if limit:
+#         query = query.limit(limit)
+
+#     return query.all()
+
+# @router.get("/")
+# def get_books(db: Session = Depends(get_db)):
+#     books = db.query(models.Book).all()
+
+#     result = []
+#     for b in books:
+#         result.append({
+#             "id": b.id,
+#             "title": b.title,
+#             "isbn": b.isbn,
+#             "year": b.year,
+#             # "authors": [{"id": b.author.id, "name": b.author.name}] if b.author else [],
+#             # "categories": [
+#             #     {"id": b.category.id, "name": b.category.name}] if b.category else []
+#             "authors": b.author.name if b.author else [],
+#             "categories": b.category.name if b.category else []
+#         })
+
+#     return result
+
 @router.get("/")
-def list_books(
+def get_books(
     author_id: int = None,
     category_id: int = None,
     year: int = None,
     limit: int = None,
     db: Session = Depends(get_db)
 ):
+
     query = db.query(models.Book)
 
+    # Filters
     if author_id:
         query = query.filter(models.Book.author_id == author_id)
+
     if category_id:
         query = query.filter(models.Book.category_id == category_id)
+
     if year:
         query = query.filter(models.Book.year == year)
+
     if limit:
         query = query.limit(limit)
 
-    return query.all()
+    books = query.all()
+
+    # Final response formatting
+    result = []
+    for b in books:
+        result.append({
+            "id": b.id,
+            "title": b.title,
+            "isbn": b.isbn,
+            "year": b.year,
+            "authors": b.author.name if b.author else None,
+            "categories": b.category.name if b.category else None
+        })
+
+    return result
 
 
 @router.get("/insights")
