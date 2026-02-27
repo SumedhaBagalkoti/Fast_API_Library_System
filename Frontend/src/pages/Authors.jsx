@@ -18,11 +18,25 @@ export default function Authors() {
     load();
   }, []);
 
-  const handleDelete = async (id) => {
-    if (!confirm("Are you sure you want to delete this author?")) return;
-    await apiDelete(`/authors/${id}`);
-    load();
-  };
+  // const handleDelete = async (id) => {
+  //   if (!confirm("Are you sure you want to delete this author?")) return;
+  //   await apiDelete(`/authors/${id}`);
+  //   load();
+  // };
+
+  const handleDelete = async (author) => {
+  // 1. If author has books → block deletion
+  if (author.book_count > 0) {
+    alert("Cannot delete author. This author has books.");
+    return;
+  }
+
+  // 2. If author has NO books → ask confirmation
+  if (!confirm(`Are you sure you want to delete "${author.name}"?`)) return;
+
+  await apiDelete(`/authors/${author.id}`);
+  load();
+};
 
   const addAuthor = async (data) => {
     await apiPost("/authors", data);
@@ -80,16 +94,16 @@ export default function Authors() {
                 <td style={tdStyle}>
                   <button
                     onClick={() => { setMode("edit"); setEditingAuthor(a); }}
-                    style={{ ...actionButton, backgroundColor: "#ffc107" }}
+                    style={{ ...actionButton, backgroundColor: "#1988d8" }}
                   >
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(a.id)}
+                    onClick={() => handleDelete(a)}
                     style={{ ...actionButton, backgroundColor: "#dc3545" }}
                   >
                     Delete
-                  </button>
+                </button>
                 </td>
               </tr>
             ))}

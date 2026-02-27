@@ -163,7 +163,7 @@ export default function Books() {
                 <td style={tdStyle}>{Array.isArray(b.authors) ? b.authors.join(", ") : b.authors}</td>
                 <td style={tdStyle}>{Array.isArray(b.categories) ? b.categories.join(", ") : b.categories}</td>
                 <td style={tdStyle}>
-                  <button onClick={() => handleEdit(b)} style={{ ...actionButton, backgroundColor: "#ffc107" }}>Edit</button>
+                  <button onClick={() => handleEdit(b)} style={{ ...actionButton, backgroundColor: "#1988d8" }}>Edit</button>
                   <button onClick={() => handleDelete(b.id)} style={{ ...actionButton, backgroundColor: "#dc3545" }}>Delete</button>
                 </td>
               </tr>
