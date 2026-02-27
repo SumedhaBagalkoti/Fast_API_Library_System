@@ -1,359 +1,227 @@
-# Library API - FastAPI Project
+# Library Management System
 
-A complete Library API built using FastAPI, SQLite, SQLAlchemy, and Pydantic, featuring CRUD operations, filtering, authentication middleware, and statistical endpoints.
+A complete full-stack Library Management System built with **FastAPI**, **SQLite**, **SQLAlchemy**, **React**, **Vite**, and **Axios**. Includes CRUD operations, filtering, statistics, and a fully interactive UI.
 
-This project satisfies all requirements from the assignment, including database design, CRUD APIs, business logic checks, and authentication.
+---
 
 ## Features
 
-**CRUD Operations**
-- Manage Books
-- Manage Authors
-- Manage Categories
+### Backend – FastAPI
+- CRUD for Books, Authors, and Categories
+- Filtering by author, category, year, and limit
+- Statistics endpoints (total books, average year, author range, book counts, and more)
+- SQLite database via SQLAlchemy ORM
 
-**Filtering Options**
-- Filter books by author
-- Filter books by category
-- Filter books by year
-- Limit number of books returned
+### Frontend – React (Vite)
+- Modern, clean UI
+- Pages for Authors, Books, and Categories
+- Add / Edit / Delete via popup modals
+- Book count per author
+- Prevents deleting authors who have books
+- Statistics displayed inside author detail view
+- Axios API wrapper
 
-**Statistics Endpoints**
-- Total books
-- Average publication year
-- Earliest & latest book of an author
-- First N books sorted by title
-- Category checks
-- Count books per author/category
-- List authors + sorted books
+---
 
-**Authentication Middleware**
-- Basic Auth implemented using middleware
-- All routes require authentication
-- Unauthorized users get 401
+## Project Structure
 
-## Folder Structure
 ```
-library_app/
-│── main.py
-│── database.py
-│── models.py
-│── schemas.py
-│── auth_middleware.py
-│── requirements.txt
-│── routers/
-│     ├── books.py
-│     ├── authors.py
-│     ├── categories.py
-│     └── stats.py
-│── README.md
+library_system/
+├── backend/
+│   ├── main.py
+│   ├── database.py
+│   ├── models.py
+│   ├── schemas.py
+│   ├── auth_middleware.py
+│   ├── routers/
+│   │   ├── books.py
+│   │   ├── authors.py
+│   │   ├── categories.py
+│   │   └── stats.py
+│   ├── requirements.txt
+│   └── README.md
+│
+└── frontend/
+    ├── src/
+    │   ├── api/api.js
+    │   ├── pages/
+    │   ├── components/
+    │   ├── App.jsx
+    │   └── main.jsx
+    ├── package.json
+    └── vite.config.js
 ```
 
-## Requirements
+---
 
-Install the required Python packages:
+## Installation
 
-- fastapi
-- uvicorn
-- sqlalchemy
-- pydantic
+### Backend (FastAPI)
 
-You can install all dependencies using:
+**1. Create and activate a virtual environment**
+
 ```bash
-pip install -r requirements.txt
-```
-
-## How to Run the Project
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
-```
-
-### 2. Create Virtual Environment (Optional but recommended)
-
-**Windows:**
-```bash
+# Windows
 python -m venv venv
 venv\Scripts\activate
-```
 
-**Mac/Linux:**
-```bash
+# macOS / Linux
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 3. Install Dependencies
+**2. Install dependencies**
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Run the FastAPI App
+**3. Start the backend**
+
 ```bash
 uvicorn main:app --reload
 ```
 
-### 5. Open API Documentation
+| Resource | URL |
+|---|---|
+| Backend API | http://127.0.0.1:8000 |
+| Swagger Docs | http://127.0.0.1:8000/docs |
 
-FastAPI provides automatic Swagger UI:
+---
 
-http://127.0.0.1:8000/docs
+### Frontend (React + Vite)
 
-## Authentication (Required for All Endpoints)
+From inside the `frontend/` folder:
 
-This project implements Basic Authentication using middleware.
+**1. Install dependencies**
 
-In every API request (Thunder Client / Postman):
-
-**Use:**
-- Username: `admin`
-- Password: `password123`
-
-If credentials are missing or wrong, response will be:
-```json
-{
-  "detail": "Unauthorized"
-}
+```bash
+npm install
 ```
+
+**2. Start the dev server**
+
+```bash
+npm run dev
+```
+
+| Resource | URL |
+|---|---|
+| Frontend | http://127.0.0.1:5173 |
+
+---
 
 ## API Endpoints
 
-Below are all URLs grouped by task for easy testing.
+### Authors
 
-### TASK 1 & 2 — CRUD + Filtering Endpoints
+| Method | Route | Description |
+|---|---|---|
+| `POST` | `/authors/` | Create author |
+| `GET` | `/authors/` | List all authors |
+| `GET` | `/authors/{id}/books` | Get books by author |
+| `DELETE` | `/authors/{id}` | Delete author (blocked if books exist) |
 
-#### AUTHORS
+### Categories
 
-**➤ Create Author (POST)**
-```
-POST /authors/
-```
+| Method | Route |
+|---|---|
+| `POST` | `/categories/` |
+| `GET` | `/categories/` |
+| `GET` | `/categories/{id}/books` |
+| `DELETE` | `/categories/{id}` |
 
-Body:
-```json
-{
-  "name": "J.K. Rowling",
-  "info": "British author"
-}
-```
+### Books
 
-**➤ Get All Authors (GET)**
-```
-GET /authors/
-```
+| Method | Route |
+|---|---|
+| `POST` | `/books/` |
+| `GET` | `/books/` |
+| `GET` | `/books/{id}` |
+| `PUT` | `/books/{id}` |
+| `DELETE` | `/books/{id}` |
 
-**➤ Get Author's Books (GET)**
-```
-GET /authors/1/books
-```
+**Filtering query params:**
 
-**➤ Delete Author (DELETE)**
 ```
-DELETE /authors/1
-```
-
-#### CATEGORIES
-
-**➤ Create Category**
-```
-POST /categories/
+/books?author_id=1
+/books?category_id=1
+/books?year=2001
+/books?limit=5
 ```
 
-Body:
-```json
-{ "name": "Fiction" }
+---
+
+## Statistics Endpoints
+
+| Description | Route |
+|---|---|
+| Total books | `GET /stats/total-books` |
+| Average publication year | `GET /stats/avg-year` |
+| Earliest & latest book by author | `GET /stats/author-range/{id}` |
+| First N books sorted by title | `GET /stats/first-n-books/{n}` |
+| Does author have books? | `GET /stats/author-has-books/{id}` |
+| Count per author & category | `GET /stats/counts` |
+
+---
+
+## Book Insights Endpoint
+
+```
+GET /books/insights
 ```
 
-**➤ Get All Categories**
-```
-GET /categories/
-```
+Returns top 5 authors and years with 2 or more books, along with cleaned and validated book data.
 
-**➤ Get Category Books**
-```
-GET /categories/1/books
-```
-
-**➤ Delete Category**
-```
-DELETE /categories/1
-```
-
-#### BOOKS
-
-**➤ Create Book**
-```
-POST /books/
-```
-
-Body:
-```json
-{
-  "title": "Harry Potter",
-  "isbn": "12345",
-  "year": 1997,
-  "author_id": 1,
-  "category_id": 1
-}
-```
-
-**➤ Get All Books**
-```
-GET /books/
-```
-
-**➤ Get Book by ID**
-```
-GET /books/1
-```
-
-**➤ Update Book**
-```
-PUT /books/1
-```
-
-**➤ Delete Book**
-```
-DELETE /books/1
-```
-
-#### BOOK FILTERING
-
-**➤ Books by author**
-```
-GET /books?author_id=1
-```
-
-**➤ Books by category**
-```
-GET /books?category_id=1
-```
-
-**➤ Books by year**
-```
-GET /books?year=1997
-```
-
-**➤ Limit N books**
-```
-GET /books?limit=2
-```
-
-### TASK 3 — Statistics & Business Checks
-
-**1. Total Books**
-```
-GET /stats/total-books
-```
-
-**2. Average Publication Year**
-```
-GET /stats/avg-year
-```
-
-**3. Earliest + Latest book of an author**
-```
-GET /stats/author-range/1
-```
-
-**4. First N books sorted by title**
-```
-GET /stats/first-n-books/3
-```
-
-**6. Does author have any books?**
-```
-GET /stats/author-has-books/1
-```
-
-**7. Count books per author & category**
-```
-GET /stats/counts
-```
-
-### TASK 4 — Authentication Middleware
-
-- Middleware protects all routes.
-- Authorization header required: `Authorization: Basic <base64>`
-- Username: `admin`
-- Password: `password123`
-- All unauthorized requests return 401
-
-
-# Books Insights API Endpoint
-
-## Overview
-
-The Insights endpoint provides analytics and statistics about the books collection.
-
-## Endpoint Details
-
-**URL:** `/books/insights`  
-**Method:** `GET`  
-**Description:** Generates an analytics report from the books collection
-
-## How It Works
-
-The endpoint performs the following operations:
-
-1. **Load Books** - Retrieves all books from the collection
-2. **Validate Books** - Filters books based on validation rules:
-   - Year must be between 1900 and 2100
-   - Author field must exist and not be empty
-3. **Calculate Top Authors** - Identifies the top 5 authors by book count
-4. **Identify Busy Years** - Finds years with 2 or more published books
-5. **Generate Report** - Returns the analytics data
-
-## Response Format
-
-### Success Response (200 OK)
+**Example response:**
 
 ```json
 {
   "top_authors": [
-    {
-      "author": "George Orwell",
-      "total_books": 4
-    },
-    {
-      "author": "Dan Brown",
-      "total_books": 1
-    }
+    { "author": "George Orwell", "total_books": 4 }
   ],
   "busy_years": [
-    {
-      "year": 1949,
-      "books": [
-        "1984",
-        "1984"
-      ]
-    }
+    { "year": 1949, "books": ["1984", "Animal Farm"] }
   ]
 }
 ```
 
-## Response Fields
+---
 
-### `top_authors`
-Array of author objects, sorted by book count (descending), limited to top 5.
+## Frontend Pages
 
-- `author` (string) - Author name
-- `total_books` (integer) - Number of books by this author
+**Authors**
+- List all authors with book counts
+- Edit / Delete with confirmation (delete blocked if author has books)
+- Add author via popup modal
 
-### `busy_years`
-Array of year objects where 2 or more books were published.
+**Author Details**
+- Sorted book list
+- Earliest and latest book
+- "Has at least one book?" indicator
 
-- `year` (integer) - Publication year
-- `books` (array of strings) - Titles of books published in that year
+**Books**
+- List, filter, edit, and delete
+- Add / edit via popup forms
 
+---
+
+## Running the Full App
+
+```bash
+# Terminal 1 — Backend
+uvicorn main:app --reload
+
+# Terminal 2 — Frontend
+npm run dev
 ```
 
+Then open **http://localhost:5173** in your browser.
 
-## Testing Tools
+---
 
-You can test using:
+## 🛠️ Testing Tools
 
-- Thunder Client (VS Code)  
-- Swagger UI  
-- Postman
+- [Swagger UI](http://127.0.0.1:8000/docs) — built-in interactive API docs
+- [Thunder Client](https://www.thunderclient.com/) — VS Code REST client
+- [Postman](https://www.postman.com/) — standalone API testing
