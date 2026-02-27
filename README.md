@@ -2,8 +2,6 @@
 
 A complete full-stack Library Management System built with **FastAPI**, **SQLite**, **SQLAlchemy**, **React**, **Vite**, and **Axios**. Includes CRUD operations, filtering, statistics, and a fully interactive UI.
 
----
-
 ## Features
 
 ### Backend – FastAPI
@@ -20,8 +18,6 @@ A complete full-stack Library Management System built with **FastAPI**, **SQLite
 - Prevents deleting authors who have books
 - Statistics displayed inside author detail view
 - Axios API wrapper
-
----
 
 ## Project Structure
 
@@ -51,8 +47,6 @@ library_system/
     ├── package.json
     └── vite.config.js
 ```
-
----
 
 ## Installation
 
@@ -87,8 +81,6 @@ uvicorn main:app --reload
 | Backend API | http://127.0.0.1:8000 |
 | Swagger Docs | http://127.0.0.1:8000/docs |
 
----
-
 ### Frontend (React + Vite)
 
 From inside the `frontend/` folder:
@@ -108,8 +100,6 @@ npm run dev
 | Resource | URL |
 |---|---|
 | Frontend | http://127.0.0.1:5173 |
-
----
 
 ## API Endpoints
 
@@ -143,14 +133,11 @@ npm run dev
 
 **Filtering query params:**
 
-```
 /books?author_id=1
 /books?category_id=1
 /books?year=2001
 /books?limit=5
 ```
-
----
 
 ## Statistics Endpoints
 
@@ -163,7 +150,6 @@ npm run dev
 | Does author have books? | `GET /stats/author-has-books/{id}` |
 | Count per author & category | `GET /stats/counts` |
 
----
 
 ## Book Insights Endpoint
 
@@ -186,8 +172,6 @@ Returns top 5 authors and years with 2 or more books, along with cleaned and val
 }
 ```
 
----
-
 ## Frontend Pages
 
 **Authors**
@@ -204,8 +188,6 @@ Returns top 5 authors and years with 2 or more books, along with cleaned and val
 - List, filter, edit, and delete
 - Add / edit via popup forms
 
----
-
 ## Running the Full App
 
 ```bash
@@ -218,9 +200,7 @@ npm run dev
 
 Then open **http://localhost:5173** in your browser.
 
----
-
-## 🛠️ Testing Tools
+## Testing Tools
 
 - [Swagger UI](http://127.0.0.1:8000/docs) — built-in interactive API docs
 - [Thunder Client](https://www.thunderclient.com/) — VS Code REST client
